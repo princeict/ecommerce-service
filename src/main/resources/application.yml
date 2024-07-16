@@ -1,0 +1,35 @@
+
+server:
+  servlet:
+    context-path: /@project.artifactId@
+
+spring:
+
+
+  banner:
+    charset: UTF-8
+    location : banner.txt
+  profiles:
+    active: dev
+    default: um-module
+  application:
+    name: @project.artifactId@
+    version: @project.version@
+  main:
+    web-application-type: servlet
+    allow-bean-definition-overriding: true
+    ## Spring Jackson binding config
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+#      ddl-auto: none
+      enable_lazy_load_no_trans: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
