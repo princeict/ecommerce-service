@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("wish-lists")
+@RequestMapping("api/v1/wish-lists")
 @RequiredArgsConstructor
 public class WishListController {
     private final WishListService service;

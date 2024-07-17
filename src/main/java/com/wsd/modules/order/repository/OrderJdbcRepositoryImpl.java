@@ -44,16 +44,19 @@ public class OrderJdbcRepositoryImpl implements OrderJdbcRepository {
 
     @Override
     public List<TotalSellingProductResponseDTO> topSellingProducts(Integer limit) {
-        String sql = "SELECT p.id as product_id, SUM(od.total_amount) AS total_sale, p.name as product_name" +
+        String sql = "SELECT p.id as product_id, SUM(od.total_amount) AS total_sale, p.name as product_name " +
                     "FROM order_details od " +
                     "LEFT JOIN products AS p ON p.id = od.product_id " +
-                    "GROUP BY p.id ORDER BY total_amount DESC LIMIT "+limit;
+                    "GROUP BY p.id ORDER BY total_sale DESC LIMIT "+limit;
 
         return jdbcTemplate.query(sql, new TotalSellingResponseMapper());
     }
 
     @Override
     public List<TotalSellingProductResponseDTO> topSellingProductsByTimeRange(String startDate, String endDate, Integer limit) {
+        System.out.println("start="+startDate);
+        System.out.println("endDate="+endDate);
+
         String sql = "SELECT p.id as product_id," +
                     "SUM(od.quantity) AS total_quantity, p.name as product_name " +
                     "FROM order_details od " +

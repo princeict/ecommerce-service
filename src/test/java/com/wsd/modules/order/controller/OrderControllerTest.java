@@ -1,6 +1,7 @@
 package com.wsd.modules.order.controller;
 
 import com.wsd.common.ResponseHandler;
+import com.wsd.modules.order.dto.MaxSaleDateResponseDTO;
 import com.wsd.modules.order.dto.TotalSaleAmountResponseDTO;
 import com.wsd.modules.order.dto.TotalSellingProductResponseDTO;
 import com.wsd.modules.order.service.OrderService;
@@ -45,18 +46,35 @@ class OrderControllerTest {
     }
 
     @Test
-    void fetchMaxSaleAmount() {
+    void fetchMaxSaleAmount_DataFound() {
         String startDate = "2023-01-01";
         String endDate = "2023-12-31";
-        TotalSaleAmountResponseDTO responseDTO = new TotalSaleAmountResponseDTO();
+        MaxSaleDateResponseDTO responseDTO = new MaxSaleDateResponseDTO();
+        responseDTO.setDate("2023-07-15");
 
-        when(orderService.fetchTotalSaleAmount(startDate, endDate)).thenReturn(responseDTO);
+        when(orderService.fetchMaxSaleDayByDateRange(startDate, endDate)).thenReturn(responseDTO);
 
         ResponseEntity<?> response = orderController.fetchMaxSaleAmount(startDate, endDate);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(ResponseHandler.generateResponse(HttpStatus.OK, true, "Data Found", responseDTO), response);
-        verify(orderService, times(1)).fetchTotalSaleAmount(startDate, endDate);
+        verify(orderService, times(1)).fetchMaxSaleDayByDateRange(startDate, endDate);
+    }
+
+    @Test
+    void fetchMaxSaleAmount_NoDataFound() {
+        String startDate = "2023-01-01";
+        String endDate = "2023-12-31";
+        MaxSaleDateResponseDTO responseDTO = new MaxSaleDateResponseDTO();
+        responseDTO.setDate(null);
+
+        when(orderService.fetchMaxSaleDayByDateRange(startDate, endDate)).thenReturn(responseDTO);
+
+        ResponseEntity<?> response = orderController.fetchMaxSaleAmount(startDate, endDate);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, false, "No Data Found", new ArrayList<>()), response);
+        verify(orderService, times(1)).fetchMaxSaleDayByDateRange(startDate, endDate);
     }
 
     @Test
