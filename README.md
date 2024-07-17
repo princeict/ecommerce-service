@@ -13,4 +13,11 @@ This application provides several APIs for an eCommerce platform, implementing a
 | `/api/v1/top-selling-products?limit={limit}`                          | GET    | Returns top 5 selling items of all time          |
 | `/api/v1/top-selling-products-time-range?startDate={date}&endDate={date}&limit={limit}`               | GET    | Returns top 5 selling items of the last month    |
 
+## Running the application
+This project can be run basically in two ways. One is using docker, other way is to run manually via Intellij Idea.
+
+## Data Seeding
+To generate dummy data, a sql script has been added.
+
+
 
