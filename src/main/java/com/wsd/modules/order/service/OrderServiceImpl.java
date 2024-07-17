@@ -9,6 +9,7 @@ import com.wsd.modules.order.repository.OrderJdbcRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 
@@ -41,8 +42,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<TotalSellingProductResponseDTO> fetchTopSellingProductByLimitAndTime(String startDate, String endDate, Integer limit) {
-        String formatStartDate = startDate+" 00:00:00";
-        String formatEndDate   = endDate+" 23:59:59";
+        LocalDate now = LocalDate.now();
+        YearMonth lastMonth = YearMonth.from(now).minusMonths(1);
+        LocalDate startOfLastMonth = lastMonth.atDay(1);
+        LocalDate endOfLastMonth = lastMonth.atEndOfMonth();
+        String formatStartDate = (startDate != null ? startDate : startOfLastMonth.toString()) + " 00:00:00";
+        String formatEndDate = (endDate != null ? endDate : endOfLastMonth.toString()) + " 23:59:59";
         List<TotalSellingProductResponseDTO> returnValue = orderJdbcRepository.topSellingProductsByTimeRange(formatStartDate, formatEndDate, limit);
         return returnValue;
     }

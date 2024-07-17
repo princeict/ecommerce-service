@@ -48,7 +48,7 @@ public class OrderController {
     }
 
     @GetMapping("/top-selling-products-time-range")
-    public ResponseEntity<?> fetchTopSellingProductByTime(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,@RequestParam("limit") Integer limit) {
+    public ResponseEntity<?> fetchTopSellingProductByTime(@RequestParam(value = "startDate", required = false) String startDate, @RequestParam(value = "endDate", required = false) String endDate,@RequestParam("limit") Integer limit) {
         List<TotalSellingProductResponseDTO> returnValue = service.fetchTopSellingProductByLimitAndTime(startDate, endDate, limit);
         if (returnValue.isEmpty()) {
             return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, false, "No Data Found", new ArrayList<>());

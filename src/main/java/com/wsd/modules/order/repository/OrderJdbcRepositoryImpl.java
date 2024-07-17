@@ -54,9 +54,6 @@ public class OrderJdbcRepositoryImpl implements OrderJdbcRepository {
 
     @Override
     public List<TotalSellingProductResponseDTO> topSellingProductsByTimeRange(String startDate, String endDate, Integer limit) {
-        System.out.println("start="+startDate);
-        System.out.println("endDate="+endDate);
-
         String sql = "SELECT p.id as product_id," +
                     "SUM(od.quantity) AS total_quantity, p.name as product_name " +
                     "FROM order_details od " +
